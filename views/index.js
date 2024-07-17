@@ -11,7 +11,7 @@ const createHomepageTemplate = () => /*html*/`
             </header>
             <main>
                 <div class="book-list">
-                    <!-- book list here later -->
+                    <button hx-get="/books">Show Books</button>
                 </div>
                 <div class="add-book-form">
                     <h2>What do you want to read?</h2>
