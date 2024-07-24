@@ -3,6 +3,7 @@ import createHomepageTemplate from "./views/index.js";
 import createListTemplate from "./views/list.js";
 import BOOKS_DATA from "./data/data.js";
 import createBookTemplate from "./views/book.js";
+import createEditFormTemplate from "./views/edit.js";
 
 // create app
 const app = express();
@@ -17,7 +18,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/books", (req, res) => {
-  res.send(createListTemplate());
+  res.send(createListTemplate(BOOKS_DATA));
 });
 
 app.post("/books", (req, res) => {
@@ -43,6 +44,33 @@ app.delete("/books/:id", (req, res) => {
   BOOKS_DATA.splice(idx, 1);
 
   res.send();
+});
+
+app.get("/books/edit/:id", (req, res) => {
+  const book = BOOKS_DATA.find((b) => b.id === req.params.id);
+
+  res.send(createEditFormTemplate(book));
+});
+
+app.put("/books/:id", (req, res) => {
+  const { id } = req.params;
+  const { title, author } = req.body;
+  const updatedBook = { id, title, author };
+
+  const idx = BOOKS_DATA.findIndex((b) => b.id === id);
+
+  BOOKS_DATA[idx] = updatedBook;
+
+  res.send(createBookTemplate(updatedBook));
+});
+
+app.post("/books/search", (req, res) => {
+  const text = req.body.search.toLowerCase();
+  console.log("Text to search: " + text);
+
+  const books = BOOKS_DATA.filter((b) => b.title.toLowerCase().includes(text));
+
+  res.send(createListTemplate(books));
 });
 
 // listen to port

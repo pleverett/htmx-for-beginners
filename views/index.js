@@ -10,6 +10,16 @@ const createHomepageTemplate = () => /*html*/ `
                 <h1>My Reading List</h1>
             </header>
             <main>
+                <div class="search" style="text-align: center;">
+                    <input 
+                        type="search" 
+                        name="search" 
+                        placeholder="search books by title ..."
+                        hx-post="/books/search"
+                        hx-trigger="keyup changed delay:300ms"
+                        hx-target=".book-list" 
+                    />
+                </div>
                 <div class="book-list">
                     <button hx-get="/books" hx-target=".book-list">Show Books</button>
                 </div>
@@ -20,7 +30,7 @@ const createHomepageTemplate = () => /*html*/ `
                         hx-on:click="console.log('new book added', event)"
                         hx-post="/books" 
                         hx-target=".book-list ul" 
-                        hx-swap="beforeend">
+                        hx-swap="beforeend"
                     >
                         <input type="text" name="title" placeholder="title" />
                         <input type="text" name="author" placeholder="author" />
